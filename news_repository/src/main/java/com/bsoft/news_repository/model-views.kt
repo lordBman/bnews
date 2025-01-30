@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 class NewsDataViewModel : ViewModel() {
     private fun getLatestNews() {
         viewModelScope.launch {
-            val listResult = NewsDataApiService.NewsDataApi.retrofitService.getNews();
+            val listResult = NewsDataApiService.NewsDataApi.api.getNews();
         }
     }
 }

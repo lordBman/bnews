@@ -13,7 +13,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
-
+    buildFeatures {
+        viewBinding = true
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -46,4 +48,5 @@ dependencies {
     implementation(libs.retrofit)
     // Retrofit with Scalar Converter
     implementation(libs.converter.scalars)
+    implementation(libs.converter.gson)
 }
