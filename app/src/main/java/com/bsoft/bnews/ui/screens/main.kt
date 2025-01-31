@@ -1,6 +1,5 @@
 package com.bsoft.bnews.ui.screens
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
@@ -11,20 +10,20 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-
-enum class PageRoute(val title: String, val icon: ImageVector){
-    Home("Home", icon = Icons.Outlined.Home),
-    Settings("Settings", icon = Icons.Outlined.Settings)
-}
+import androidx.navigation.compose.rememberNavController
+import com.bsoft.bnews.ui.pages.HomePage
+import com.bsoft.bnews.ui.pages.SettingsPage
+import com.bsoft.bnews.ui.theme.BNewsTheme
+import com.bsoft.bnews.utils.LightDarkPreview
+import com.bsoft.bnews.utils.PageRoute
 
 @Composable
 fun CustomBottomBar(navController: NavHostController){
@@ -52,15 +51,20 @@ fun CustomBottomBar(navController: NavHostController){
 
 @Composable
 fun MainScreen(){
-    Scaffold(modifier = Modifier.fillMaxSize()) {
-        Surface(modifier = Modifier.padding(it)) {
+    val bottomNavController = rememberNavController()
+    Scaffold( bottomBar =  { CustomBottomBar(navController = bottomNavController) }) {
+        NavHost(navController = bottomNavController, modifier = Modifier.padding(it) , startDestination = PageRoute.Home.title, builder = {
+            composable(route = PageRoute.Home.title) { HomePage() }
+            composable(route = PageRoute.Settings.title) { SettingsPage() }
+        })
 
-        }
     }
 }
 
+@LightDarkPreview
 @Composable
-@Preview
 fun MainScreenPreview(){
-    MainScreen()
+    BNewsTheme {
+        MainScreen()
+    }
 }

@@ -1,5 +1,6 @@
 package com.bsoft.news_repository
 
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -14,21 +15,18 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-
-
-
 interface NewsDataApiService {
     @GET("/news")
-    suspend fun latest(
+    suspend fun news(
         @Query("apikey") apikey:String="pub_66705f2098a380da6cdb6fd90e81062f3b45f",
         @Query("country")country: String = "ng",
-        @Query("page")page: String? = "1"
-         ): ArticleResponse
+        @Query("category") category: String? = null,
+        @Query("q") q: String? = null,
+        @Query("page")page: String? = null): Response<ArticleResponse>
 
     object NewsDataApi {
         val api : NewsDataApiService by lazy {
             retrofit.create(NewsDataApiService::class.java)
         }
     }
-
 }
