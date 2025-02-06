@@ -9,9 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.bsoft.bnews.viewmodels.SettingsViewModel
 
 @Composable
-fun SettingsPage(){
+fun SettingsPage(settingsViewModel: SettingsViewModel = hiltViewModel<SettingsViewModel>()){
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
             Text("Setting Page")

@@ -8,18 +8,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bsoft.bnews.ui.theme.BNewsTheme
 import com.bsoft.bnews.utils.LightDarkPreview
+import com.bsoft.bnews.viewmodels.NewsDataViewModel
 
 @Composable
-fun LoadingScreen(){
+fun LoadingScreen(newsDataViewModel: NewsDataViewModel = hiltViewModel<NewsDataViewModel>()){
     Surface(modifier = Modifier.fillMaxSize().padding(20.dp)){
         Column(modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally){
             Surface(modifier = Modifier.weight(weight = 1f)) {
 
             }
-            Text("Loading...")
+            Text("Loading...", style = TextStyle(color = Color.White))
         }
     }
 }
