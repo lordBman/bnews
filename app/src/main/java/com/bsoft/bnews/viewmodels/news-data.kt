@@ -23,6 +23,17 @@ data class NewsDataState(
 
 private val defaultState = NewsDataState(loading = false, isError = false, message = "", categories = mutableMapOf())
 
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(): UserRepository {
+        return UserRepository()
+    }
+}
+
 @HiltViewModel
 class NewsDataViewModel @Inject constructor() : ViewModel(){
     private val _mutableState = MutableStateFlow(defaultState)
