@@ -8,14 +8,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bsoft.bnews.ui.theme.BNewsTheme
 import com.bsoft.bnews.utils.MobilePreview
 import com.bsoft.bnews.viewmodels.NewsDataViewModel
 
 @Composable
-fun HomePage(newsDataViewModel: NewsDataViewModel = hiltViewModel<NewsDataViewModel>()){
+fun HomePage(newsDataViewModel: NewsDataViewModel = hiltViewModel()){
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
             Text("Home Page")

@@ -5,23 +5,24 @@ import androidx.lifecycle.viewModelScope
 import com.bsoft.news_repository.ArticleResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.bsoft.news_repository.NewsDataRepository;
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-private val repository: NewsDataRepository = NewsDataRepository()
+import javax.inject.Singleton
 
 data class NewsDataState(
-    val categories: Map<String, ArticleResponse>,
-    val loading: Boolean,
-    val isError: Boolean,
-    val message: String,
+    val categories: Map<String, ArticleResponse> = mapOf(),
+    val loading: Boolean = false,
+    val isError: Boolean = false,
+    val message: String = "",
     val error: Throwable? = null
 )
-
-private val defaultState = NewsDataState(loading = false, isError = false, message = "", categories = mutableMapOf())
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -29,14 +30,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(): UserRepository {
-        return UserRepository()
+    fun provideNewsDataRepository(): NewsDataRepository {
+        return NewsDataRepository()
     }
 }
 
 @HiltViewModel
-class NewsDataViewModel @Inject constructor() : ViewModel(){
-    private val _mutableState = MutableStateFlow(defaultState)
+class NewsDataViewModel @Inject constructor(private val repository: NewsDataRepository) : ViewModel(){
+    private val _mutableState = MutableStateFlow(NewsDataState())
     val state = _mutableState.asStateFlow();
 
     init {
