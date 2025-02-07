@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.bsoft.bnews.ui.appscreen
+import com.bsoft.bnews.ui.App
 import com.bsoft.bnews.ui.theme.BNewsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BNewsTheme {
-            appscreen()
+                App()
             }
         }
     }

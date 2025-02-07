@@ -12,4 +12,4 @@ import androidx.compose.ui.tooling.preview.Preview
     device = "id:Nexus S",
     uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
 )
-annotation class LightDarkPreview
+annotation class MobilePreview

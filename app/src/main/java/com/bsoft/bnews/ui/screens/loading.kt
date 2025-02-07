@@ -13,23 +13,23 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bsoft.bnews.ui.theme.BNewsTheme
-import com.bsoft.bnews.utils.LightDarkPreview
+import com.bsoft.bnews.utils.MobilePreview
 import com.bsoft.bnews.viewmodels.NewsDataViewModel
 
 @Composable
 fun LoadingScreen(newsDataViewModel: NewsDataViewModel = hiltViewModel<NewsDataViewModel>()){
-    Surface(modifier = Modifier.fillMaxSize().padding(20.dp)){
+    Surface(modifier = Modifier.fillMaxSize()){
         Column(modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally){
             Surface(modifier = Modifier.weight(weight = 1f)) {
 
             }
-            Text("Loading...", style = TextStyle(color = Color.White))
+            Text("Loading...")
         }
     }
 }
 
+@MobilePreview
 @Composable
-@LightDarkPreview
 fun LoadingScreenPreview(){
     BNewsTheme {
         LoadingScreen()

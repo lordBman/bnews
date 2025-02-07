@@ -10,6 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.bsoft.bnews.ui.theme.BNewsTheme
+import com.bsoft.bnews.utils.MobilePreview
 import com.bsoft.bnews.viewmodels.NewsDataViewModel
 
 @Composable
@@ -21,8 +23,10 @@ fun HomePage(newsDataViewModel: NewsDataViewModel = hiltViewModel<NewsDataViewMo
     }
 }
 
+@MobilePreview
 @Composable
-@Preview
 fun HomePagePreview(){
-    HomePage()
+    BNewsTheme {
+        HomePage()
+    }
 }
