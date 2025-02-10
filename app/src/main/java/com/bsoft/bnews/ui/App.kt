@@ -12,11 +12,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bsoft.bnews.ui.screens.InfoScreen
 import com.bsoft.bnews.ui.screens.LoadingScreen
-import com.bsoft.bnews.ui.theme.BNewsTheme
-import com.bsoft.bnews.utils.MobilePreview
+import com.bsoft.bnews.ui.screens.MainScreen
+import com.bsoft.bnews.ui.screens.OnBoardingScreen
 import com.bsoft.bnews.utils.RootRoutes
 
-val LocalNavController = compositionLocalOf<NavHostController>{
+val LocalRootNavController = compositionLocalOf<NavHostController>{
    error("No NavController found!")
 }
 
@@ -24,8 +24,7 @@ val LocalNavController = compositionLocalOf<NavHostController>{
 fun App(){
     Surface (modifier = Modifier.fillMaxSize()) {
         val navController = rememberNavController()
-
-        CompositionLocalProvider(LocalNavController provides navController) {
+        CompositionLocalProvider(LocalRootNavController provides navController) {
             NavHost(navController = navController, startDestination = RootRoutes.loading) {
                 composable(route = RootRoutes.loading) {
                     LoadingScreen()
@@ -33,16 +32,13 @@ fun App(){
                 composable(route = RootRoutes.info) {
                     InfoScreen()
                 }
+                composable(route = RootRoutes.main) {
+                    MainScreen()
+                }
+                composable(route = RootRoutes.onboarding) {
+                    OnBoardingScreen()
+                }
             }
         }
-    }
-}
-
-
-@MobilePreview
-@Composable
-fun AppPreview(){
-    BNewsTheme {
-        App()
     }
 }

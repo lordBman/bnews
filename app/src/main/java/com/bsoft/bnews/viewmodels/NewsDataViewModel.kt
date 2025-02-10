@@ -38,7 +38,7 @@ object AppModule {
 @HiltViewModel
 class NewsDataViewModel @Inject constructor(private val repository: NewsDataRepository) : ViewModel(){
     private val _mutableState = MutableStateFlow(NewsDataState())
-    val state = _mutableState.asStateFlow();
+    val state = _mutableState.asStateFlow()
 
     init {
         _mutableState.update {
