@@ -11,10 +11,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -25,9 +27,10 @@ import com.bsoft.bnews.utils.MobilePreview
 import kotlinx.coroutines.launch
 
 @Composable
-fun Carousel(data: List<SlideDatum>){
+fun Carousel(data: List<SlideDatum>, slideChange: (index: Int)-> Unit){
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
 
     // Snap behavior to show one item at a time
     val snapBehavior = rememberSnapFlingBehavior(lazyListState = listState)
@@ -37,11 +40,15 @@ fun Carousel(data: List<SlideDatum>){
         derivedStateOf { listState.firstVisibleItemIndex }
     }
 
-    val coroutineScope = rememberCoroutineScope()
-
     fun to(index: Int){
         coroutineScope.launch {
             listState.animateScrollToItem(index)
+        }
+    }
+
+    LaunchedEffect(listState) {
+        snapshotFlow { currentIndex }.collect {
+            slideChange(currentIndex)
         }
     }
 
@@ -52,8 +59,6 @@ fun Carousel(data: List<SlideDatum>){
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Navigation Buttons
         Indicators(current = currentIndex, size = data.size) { to(it) }
     }
 }
@@ -70,7 +75,7 @@ fun CarouselPreview(){
     )
     BNewsTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            Carousel(data)
+            Carousel(data){}
         }
     }
 }
