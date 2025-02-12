@@ -1,9 +1,8 @@
 package com.bsoft.bnews.utils
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.bsoft.bnews.ui.icons.Cog
+import com.bsoft.bnews.ui.icons.HomeIcon
 
 object RootRoutes {
     const val loading = "Loading"
@@ -13,6 +12,6 @@ object RootRoutes {
 }
 
 enum class PageRoute(val title: String, val icon: ImageVector){
-    Home("Home", icon = Icons.Outlined.Home),
-    Settings("Settings", icon = Icons.Outlined.Settings)
+    Home("Home", icon = HomeIcon),
+    Settings("Settings", icon = Cog)
 }

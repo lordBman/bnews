@@ -9,20 +9,20 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-public val Search: ImageVector
+val Search: ImageVector
     get() {
         if (_Search != null) {
             return _Search!!
         }
         _Search = ImageVector.Builder(
             name = "Search",
-            defaultWidth = 24.dp,
-            defaultHeight = 24.dp,
-            viewportWidth = 960f,
-            viewportHeight = 960f
+            defaultWidth = 16.dp,
+            defaultHeight = 16.dp,
+            viewportWidth = 16f,
+            viewportHeight = 16f
         ).apply {
             path(
-                fill = SolidColor(Color.Black),
+                fill = SolidColor(Color(0xFF000000)),
                 fillAlpha = 1.0f,
                 stroke = null,
                 strokeAlpha = 1.0f,
@@ -32,32 +32,18 @@ public val Search: ImageVector
                 strokeLineMiter = 1.0f,
                 pathFillType = PathFillType.NonZero
             ) {
-                moveTo(380f, 640f)
-                quadToRelative(-109f, 0f, -184.5f, -75.5f)
-                reflectiveQuadTo(120f, 380f)
-                reflectiveQuadToRelative(75.5f, -184.5f)
-                reflectiveQuadTo(380f, 120f)
-                reflectiveQuadToRelative(184.5f, 75.5f)
-                reflectiveQuadTo(640f, 380f)
-                quadToRelative(0f, 44f, -14f, 83f)
-                reflectiveQuadToRelative(-38f, 69f)
-                lineToRelative(224f, 224f)
-                quadToRelative(11f, 11f, 11f, 28f)
-                reflectiveQuadToRelative(-11f, 28f)
-                reflectiveQuadToRelative(-28f, 11f)
-                reflectiveQuadToRelative(-28f, -11f)
-                lineTo(532f, 588f)
-                quadToRelative(-30f, 24f, -69f, 38f)
-                reflectiveQuadToRelative(-83f, 14f)
-                moveToRelative(0f, -80f)
-                quadToRelative(75f, 0f, 127.5f, -52.5f)
-                reflectiveQuadTo(560f, 380f)
-                reflectiveQuadToRelative(-52.5f, -127.5f)
-                reflectiveQuadTo(380f, 200f)
-                reflectiveQuadToRelative(-127.5f, 52.5f)
-                reflectiveQuadTo(200f, 380f)
-                reflectiveQuadToRelative(52.5f, 127.5f)
-                reflectiveQuadTo(380f, 560f)
+                moveTo(11.742f, 10.344f)
+                arcToRelative(6.5f, 6.5f, 0f, isMoreThanHalf = true, isPositiveArc = false, -1.397f, 1.398f)
+                horizontalLineToRelative(-0.001f)
+                quadToRelative(0.044f, 0.06f, 0.098f, 0.115f)
+                lineToRelative(3.85f, 3.85f)
+                arcToRelative(1f, 1f, 0f, isMoreThanHalf = false, isPositiveArc = false, 1.415f, -1.414f)
+                lineToRelative(-3.85f, -3.85f)
+                arcToRelative(1f, 1f, 0f, isMoreThanHalf = false, isPositiveArc = false, -0.115f, -0.1f)
+                close()
+                moveTo(12f, 6.5f)
+                arcToRelative(5.5f, 5.5f, 0f, isMoreThanHalf = true, isPositiveArc = true, -11f, 0f)
+                arcToRelative(5.5f, 5.5f, 0f, isMoreThanHalf = false, isPositiveArc = true, 11f, 0f)
             }
         }.build()
         return _Search!!
