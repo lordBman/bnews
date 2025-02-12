@@ -14,7 +14,7 @@ import com.bsoft.bnews.utils.MobilePreview
 import com.bsoft.bnews.viewmodels.NewsDataViewModel
 
 @Composable
-fun HomePage(newsDataViewModel: NewsDataViewModel = hiltViewModel()){
+fun HomePage(newsDataViewModel: NewsDataViewModel? = hiltViewModel()){
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
             Text("Home Page")
@@ -26,6 +26,6 @@ fun HomePage(newsDataViewModel: NewsDataViewModel = hiltViewModel()){
 @Composable
 fun HomePagePreview(){
     BNewsTheme {
-        HomePage()
+        HomePage(newsDataViewModel = null)
     }
 }

@@ -1,5 +1,6 @@
 package com.bsoft.bnews.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,12 +35,11 @@ fun SliderItem(datum: SlideDatum, modifier: Modifier = Modifier){
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(datum.animation))
 
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally){
-        Box(modifier = Modifier.fillMaxWidth().height(300.dp)) {
+        Box(modifier = Modifier.height(280.dp), contentAlignment = Alignment.Center) {
             LottieAnimation(
-                modifier = Modifier.fillMaxWidth(),
                 composition = composition,
                 iterations = LottieConstants.IterateForever,
-                contentScale = ContentScale.FillWidth,
+                contentScale = ContentScale.Fit,
                 maintainOriginalImageBounds = false,
                 outlineMasksAndMattes = false,
                 clipToCompositionBounds = false
@@ -73,7 +73,7 @@ fun Slides(data: List<SlideDatum>, modifier: Modifier = Modifier){
 @MobilePreview
 @Composable
 fun PreviewSlideItem(){
-    val datum = SlideDatum(title = "First Slide", animation = R.raw.animation_three, description = "I am the first Slide")
+    val datum = SlideDatum(title = "First Slide", animation = R.raw.animation_six, description = "I am the first Slide")
     BNewsTheme {
         Surface {
             SliderItem(datum)
