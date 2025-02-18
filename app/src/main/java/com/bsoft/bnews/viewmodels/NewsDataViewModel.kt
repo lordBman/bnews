@@ -59,14 +59,14 @@ class NewsDataViewModel @Inject constructor(private val repository: NewsDataRepo
             val init = mutableMapOf<String, ArticleResponse>()
             init["latest"] = repository.latest()
 
-            /*for (category in _categories){
+            for (category in _categories){
                 val response = if(category == "all"){
                     repository.categories(categories = _categories.subList(1, _categories.size) )
                 }else{
                     repository.categories(categories = listOf(category))
                 }
                 init[category] = response;
-            }*/
+            }
             _mutableState.update { it.copy(categories = init) }
         }catch (error: Throwable){
             Log.e("news article fetching error", error.message ?: error.toString())
