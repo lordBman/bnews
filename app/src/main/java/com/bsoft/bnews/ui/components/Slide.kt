@@ -1,10 +1,8 @@
 package com.bsoft.bnews.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -14,9 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -46,9 +43,9 @@ fun SliderItem(datum: SlideDatum, modifier: Modifier = Modifier){
                 //clipSpec = LottieClipSpec.Progress(0.5f, 0.75f),
             )
         }
-        Text(datum.title, fontWeight = FontWeight.ExtraBold, fontSize = TextUnit(30f, type = TextUnitType.Sp))
-        Spacer(Modifier.height(8.dp))
-        Text(text = datum.description, fontSize = TextUnit(14f, type = TextUnitType.Sp), fontWeight = FontWeight.Bold)
+        Text(datum.title, fontWeight = FontWeight.ExtraBold, fontSize = 30.sp)
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = datum.description, fontWeight = FontWeight.ExtraLight, fontSize = 14.sp)
     }
 }
 

@@ -21,5 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "BNews"
 include(":app")
-include(":utilites")
 include(":news_repository")

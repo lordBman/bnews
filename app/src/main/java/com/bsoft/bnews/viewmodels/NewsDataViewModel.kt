@@ -1,10 +1,12 @@
 package com.bsoft.bnews.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bsoft.news_repository.ArticleResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.bsoft.news_repository.NewsDataRepository;
+import com.bsoft.news_repository.SampleArticleResponse
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,10 +20,10 @@ import javax.inject.Singleton
 
 data class NewsDataState(
     val categories: Map<String, ArticleResponse> = mapOf(),
-    val loading: Boolean = false,
+    val loading: Boolean = true,
     val isError: Boolean = false,
     val message: String = "",
-    val error: Throwable? = null
+    val error: Throwable? = null,
 )
 
 @Module
@@ -37,39 +39,49 @@ object AppModule {
 
 @HiltViewModel
 class NewsDataViewModel @Inject constructor(private val repository: NewsDataRepository) : ViewModel(){
+    private val _categories = listOf("all", "sports", "technology", "entertainment", "politics", "crime")
+    val categories = _categories
+
     private val _mutableState = MutableStateFlow(NewsDataState())
     val state = _mutableState.asStateFlow()
 
     init {
-        _mutableState.update {
-            it.copy(loading = true, isError = false, message = "initializing, please wait...")
+        viewModelScope.launch {
+            _mutableState.update {
+                it.copy(loading = true, isError = false, message = "initializing, please wait...")
+            }
+            load()
         }
-        load()
     }
 
-    private fun load(){
-        viewModelScope.launch {
-            try{
-                val categories = listOf("top", "sports", "politics", "science", "business", "entertainment")
-                val init = mutableMapOf<String, ArticleResponse>();
-                for (category in categories){
-                    val response = repository.category(category = category)
+    private suspend fun load(){
+        try{
+            val init = mutableMapOf<String, ArticleResponse>()
+            init["latest"] = repository.latest()
 
-                    init[category] = response;
+            /*for (category in _categories){
+                val response = if(category == "all"){
+                    repository.categories(categories = _categories.subList(1, _categories.size) )
+                }else{
+                    repository.categories(categories = listOf(category))
                 }
-                _mutableState.update { it.copy(categories = init) }
-            }catch (error: Throwable){
-                _mutableState.update { it.copy(error = error, isError = false, message = "error fetching news, check connection") }
-            }finally {
-                _mutableState.update { it.copy(loading = false) }
-            }
+                init[category] = response;
+            }*/
+            _mutableState.update { it.copy(categories = init) }
+        }catch (error: Throwable){
+            Log.e("news article fetching error", error.message ?: error.toString())
+            _mutableState.update { it.copy(error = error, isError = true, message = "error fetching news, check connection") }
+        }finally {
+            _mutableState.update { it.copy(loading = false) }
         }
     }
 
     fun reload(){
-        _mutableState.update {
-            it.copy(loading = true, isError = false, message = "reloading, please wait...")
+        viewModelScope.launch {
+            _mutableState.update {
+                it.copy(loading = true, isError = false, message = "reloading, please wait...")
+            }
+            load()
         }
-        load()
     }
 }

@@ -1,86 +1,66 @@
 package com.bsoft.bnews.ui.pages
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.Surface
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.semantics.isTraversalGroup
-import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.bsoft.bnews.ui.components.SearchViewPreview
-import com.bsoft.bnews.ui.icons.More_vert
-import com.bsoft.bnews.ui.icons.Search
-import com.bsoft.bnews.ui.icons.Star
-import com.bsoft.bnews.ui.theme.BNewsTheme
-import com.bsoft.bnews.utils.MobilePreview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.bsoft.bnews.ui.components.ArticleHeadlineView
+import com.bsoft.bnews.ui.components.ArticleView
+import com.bsoft.bnews.ui.components.Categories
 import com.bsoft.bnews.viewmodels.NewsDataViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomePage(newsDataViewModel: NewsDataViewModel? = hiltViewModel()){
-    val textFieldState = rememberTextFieldState()
-    var expanded by rememberSaveable { mutableStateOf(false) }
+fun HomePage(topAppBarState: TopAppBarState, newsDataViewModel: NewsDataViewModel = hiltViewModel()){
+    val categories = newsDataViewModel.categories
+    val newsState by newsDataViewModel.state.collectAsState()
 
-    val inputField = SearchBarDefaults.InputField(
-        state = textFieldState,
-        onSearch = { expanded = false },
-        expanded = expanded,
-        onExpandedChange = { expanded = it },
-        placeholder = { Text("News Search...") },
-        leadingIcon = { Icon(Search, contentDescription = null) },
-    )
+    var activeCategory by remember {
+        mutableStateOf(categories.first())
+    }
 
-    Surface(modifier = Modifier.fillMaxSize().semantics { isTraversalGroup = true }) {
-        SearchBar(inputField = { inputField }, expanded = expanded, onExpandedChange = { expanded = it }){
-            Column(Modifier.verticalScroll(rememberScrollState())) {
-                repeat(4) { idx ->
-                    val resultText = "Suggestion $idx"
-                    ListItem(
-                        headlineContent = { Text(resultText) },
-                        supportingContent = { Text("Additional info") },
-                        leadingContent = { Icon(Star, contentDescription = null) },
-                        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-                        modifier =
-                        Modifier.clickable {
-                            textFieldState.setTextAndPlaceCursorAtEnd(resultText)
-                            expanded = false
-                        }
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp)
-                    )
+    if (!newsState.loading && !newsState.isError){
+        Column(modifier = Modifier.verticalScroll(state = rememberScrollState(), enabled = true)) {
+            Text("Headlines", fontFamily = FontFamily.SansSerif, modifier = Modifier.padding(top = 20.dp, start = 20.dp), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.76f), fontSize = 24.sp)
+            Row (horizontalArrangement = Arrangement.spacedBy(20.dp), modifier = Modifier.horizontalScroll(state = rememberScrollState(), enabled = true).padding(horizontal = 20.dp, vertical = 10.dp)){
+                newsState.categories["latest"]?.results?.map {
+                    ArticleHeadlineView(article = it)
+                }
+            }
+            Categories(labels = categories, active = activeCategory, padding = PaddingValues(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 10.dp)) { activeCategory = it }
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(horizontal = 20.dp)){
+                newsState.categories[activeCategory]?.results?.map {
+                    ArticleView(article = it)
                 }
             }
         }
-    }
-}
-
-@MobilePreview
-@Composable
-fun HomePagePreview(){
-    BNewsTheme {
-        HomePage(newsDataViewModel = null)
+    }else{
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+            Text(text = if(newsState.loading){ newsState.message } else { newsState.error?.message ?: newsState.error.toString() })
+        }
     }
 }

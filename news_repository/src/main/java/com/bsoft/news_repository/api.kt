@@ -15,18 +15,29 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
+object NewsDataApi {
+    val api : NewsDataApiService by lazy {
+        retrofit.create(NewsDataApiService::class.java)
+    }
+}
+
 interface NewsDataApiService {
-    @GET("/news")
+    @GET("/latest")
     suspend fun news(
         @Query("apikey") apikey:String="pub_66705f2098a380da6cdb6fd90e81062f3b45f",
         @Query("country")country: String = "ng",
-        @Query("category") category: String? = null,
-        @Query("q") q: String? = null,
+        @Query("category") category: String,
         @Query("page")page: String? = null): Response<ArticleResponse>
 
-    object NewsDataApi {
-        val api : NewsDataApiService by lazy {
-            retrofit.create(NewsDataApiService::class.java)
-        }
-    }
+    @GET("/latest")
+    suspend fun latest(
+        @Query("apikey") apikey:String="pub_66705f2098a380da6cdb6fd90e81062f3b45f",
+        @Query("country")country: String = "ng"): Response<ArticleResponse>
+
+    @GET("/latest")
+    suspend fun search(
+        @Query("apikey") apikey:String="pub_66705f2098a380da6cdb6fd90e81062f3b45f",
+        @Query("country")country: String = "ng",
+        @Query("q") q: String,
+        @Query("page")page: String? = null): Response<ArticleResponse>
 }

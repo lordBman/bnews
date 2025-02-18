@@ -14,6 +14,7 @@ import com.bsoft.bnews.ui.screens.InfoScreen
 import com.bsoft.bnews.ui.screens.LoadingScreen
 import com.bsoft.bnews.ui.screens.MainScreen
 import com.bsoft.bnews.ui.screens.OnBoardingScreen
+import com.bsoft.bnews.ui.screens.SearchScreen
 import com.bsoft.bnews.utils.RootRoutes
 
 val LocalRootNavController = compositionLocalOf<NavHostController>{
@@ -25,7 +26,7 @@ fun App(){
     Surface (modifier = Modifier.fillMaxSize()) {
         val navController = rememberNavController()
         CompositionLocalProvider(LocalRootNavController provides navController) {
-            NavHost(navController = navController, startDestination = RootRoutes.loading) {
+            NavHost(navController = navController, startDestination = RootRoutes.main) {
                 composable(route = RootRoutes.loading) {
                     LoadingScreen()
                 }
@@ -37,6 +38,9 @@ fun App(){
                 }
                 composable(route = RootRoutes.onboarding) {
                     OnBoardingScreen()
+                }
+                composable(route = RootRoutes.search) {
+                    SearchScreen()
                 }
             }
         }

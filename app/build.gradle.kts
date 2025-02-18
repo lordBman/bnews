@@ -69,8 +69,8 @@ dependencies {
 
     implementation(libs.lottie)
     implementation(libs.lottie.compose)
-
-    implementation(project(":utilites"))
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }
 
 // Allow references to generated code

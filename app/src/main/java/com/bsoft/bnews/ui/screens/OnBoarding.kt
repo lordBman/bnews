@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,9 +37,7 @@ val data = listOf(
 @Composable
 fun OnBoardingScreen(){
     //val navController = LocalRootNavController.current
-    var index by remember {
-        mutableIntStateOf(0)
-    }
+    var index by rememberSaveable { mutableIntStateOf(0) }
 
     Surface(modifier = Modifier.fillMaxSize()){
         Column {
