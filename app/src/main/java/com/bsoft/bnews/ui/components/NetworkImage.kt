@@ -7,14 +7,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalPlatformContext
@@ -24,8 +21,12 @@ import coil3.request.ImageRequest
 import com.bsoft.bnews.ui.theme.BNewsTheme
 import com.bsoft.bnews.utils.MobilePreview
 
+enum class Priority{
+    Width, Height
+}
+
 @Composable
-fun NetworkImage(modifier: Modifier = Modifier, imageUrl: String?){
+fun NetworkImage(modifier: Modifier = Modifier, priority: Priority = Priority.Height, imageUrl: String?){
     val sizeResolver = rememberConstraintsSizeResolver()
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalPlatformContext.current).data(imageUrl).build(),
@@ -45,7 +46,7 @@ fun NetworkImage(modifier: Modifier = Modifier, imageUrl: String?){
             Image(
                 painter = painter,
                 contentDescription = null,
-                contentScale = ContentScale.FillHeight,
+                contentScale = if(priority == Priority.Height){ ContentScale.FillHeight }else { ContentScale.FillWidth },
                 modifier = modifier.then(sizeResolver),
             )
         }

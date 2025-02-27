@@ -26,7 +26,7 @@ data class ArticleResponse(
     val status: String,
     val totalResults: Int,
     val results: List<Article>,
-    val nextPage: String
+    val nextPage: String?
 )
 
 val SampleArticleResponse = ArticleResponse(

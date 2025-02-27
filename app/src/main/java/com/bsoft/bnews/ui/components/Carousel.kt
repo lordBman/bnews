@@ -22,7 +22,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,8 +44,11 @@ fun Carousel(modifier: Modifier = Modifier, data: List<SlideDatum>, home: (()-> 
     val snapBehavior = rememberSnapFlingBehavior(lazyListState = listState)
 
     // Current visible item index
-    val currentIndex by rememberSaveable {
-        derivedStateOf { listState.firstVisibleItemIndex }
+    val currentIndex by remember { derivedStateOf { listState.firstVisibleItemIndex } }
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }.collect {
+            indexChange(it)
+        }
     }
 
     fun to(index: Int){
@@ -67,12 +69,6 @@ fun Carousel(modifier: Modifier = Modifier, data: List<SlideDatum>, home: (()-> 
 
     val nextText = if (currentIndex == data.lastIndex) { "Get Started" } else { "Next" }
 
-    LaunchedEffect(listState) {
-        snapshotFlow { currentIndex }.collect {
-            indexChange(currentIndex)
-        }
-    }
-
     Column(modifier = modifier){
         Box(contentAlignment = Alignment.Center, modifier = Modifier.weight(1f)) {
             Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -85,6 +81,7 @@ fun Carousel(modifier: Modifier = Modifier, data: List<SlideDatum>, home: (()-> 
                 Indicators(current = currentIndex, size = data.size) { to(it) }
             }
         }
+        Spacer(modifier = Modifier.height(30.dp))
         Row(modifier = Modifier.fillMaxWidth().padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween){
             Button(onClick = { home?.invoke() }) {
                 Text("Skip", style = TextStyle(fontWeight = FontWeight.Thin))

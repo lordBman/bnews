@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -49,6 +50,7 @@ import com.bsoft.bnews.ui.pages.SavedPage
 import com.bsoft.bnews.ui.pages.SettingsPage
 import com.bsoft.bnews.utils.PageRoute
 import com.bsoft.bnews.utils.RootRoutes
+import com.bsoft.bnews.viewmodels.NewsDataViewModel
 
 @Composable
 fun CustomBottomBar(navController: NavHostController){
@@ -79,11 +81,10 @@ fun CustomBottomBar(navController: NavHostController){
 private fun CustomTopBar(state: TopAppBarState = rememberTopAppBarState()){
     val rootNavController = LocalRootNavController.current
 
-    val colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
+    val colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
     TopAppBar(
         scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state),
         colors = colors,
-        modifier = Modifier.shadow(elevation = 8.dp),
         title = {
             Text("B-News", fontSize = 20.sp, fontFamily = FontFamily.SansSerif, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
         },
@@ -107,7 +108,7 @@ fun MainScreen(){
     Scaffold(topBar = { CustomTopBar() }, bottomBar = { CustomBottomBar(navController = bottomNavController) }) {
         NavHost(modifier = Modifier.padding(it), navController = bottomNavController, startDestination = PageRoute.Home.title) {
             composable(route = PageRoute.Home.title) {
-                HomePage(topAppBarState)
+                HomePage(topAppBarState = topAppBarState)
             }
             composable(route = PageRoute.Saved.title) {
                 SavedPage()

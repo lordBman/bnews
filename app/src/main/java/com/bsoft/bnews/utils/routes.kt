@@ -11,6 +11,7 @@ object RootRoutes {
     const val info = "Info"
     const val onboarding = "OnBoarding"
     const val search = "Search"
+    const val article = "Article"
 }
 
 enum class PageRoute(val title: String, val icon: ImageVector){

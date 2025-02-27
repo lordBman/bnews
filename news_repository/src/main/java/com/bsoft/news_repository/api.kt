@@ -30,7 +30,8 @@ interface NewsDataApiService {
     @GET("latest")
     suspend fun latest(
         @Query("apikey") apikey:String="pub_66705f2098a380da6cdb6fd90e81062f3b45f",
-        @Query("country")country: String = "ng"): Response<ArticleResponse>
+        @Query("country")country: String = "ng",
+        @Query("page")page: String? = null): Response<ArticleResponse>
 
     @GET("latest")
     suspend fun search(
@@ -38,6 +39,11 @@ interface NewsDataApiService {
         @Query("country")country: String = "ng",
         @Query("q") q: String,
         @Query("page")page: String? = null): Response<ArticleResponse>
+
+    @GET("latest")
+    suspend fun get(
+        @Query("apikey") apikey:String="pub_66705f2098a380da6cdb6fd90e81062f3b45f",
+        @Query("id") articleId: String): Response<ArticleResponse>
 }
 
 object NewsDataApi {
